@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Attendance Cybervidya",
+    "blurb": "A fast, installable web dashboard for KIET (Krishna Institute of Engineering and Technology) students to check CyberVidya attendance without fighting the official ERP UI.",
+    "tech": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "TanStack Query",
+      "React Hook Form"
+    ],
+    "live": "https://cybervidyakiet.vercel.app",
+    "source": "https://github.com/dev-himanshu-x/Attendance-Cybervidya",
+    "image": "/images/projects/attendance-cybervidya.jpg"
+  },
+  {
+    "title": "Templify Email Template",
+    "blurb": "A drag-and-drop email template builder built with React 19 and TanStack Start.",
+    "tech": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "TanStack Router",
+      "TanStack Start"
+    ],
+    "live": "https://email-templify.vercel.app/",
+    "source": "https://github.com/dev-himanshu-x/Templify-Email-Template",
+    "image": "/images/projects/templify-email-template.jpg"
+  },
+  {
+    "title": "Tv Time",
+    "blurb": "A streaming-style app for browsing movies and TV shows, saving a personal list, and watching together with friends in sync.",
+    "tech": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "TanStack Router",
+      "Framer Motion"
+    ],
+    "live": "https://tv-timee.vercel.app",
+    "source": "https://github.com/dev-himanshu-x/Tv-Time",
+    "image": "/images/projects/tv-time.jpg"
+  },
+  {
+    "title": "Fern Ecommerce",
+    "blurb": "A full-stack storefront for small-batch botanical care, built with the Next.js App Router, PostgreSQL and better-auth.",
+    "tech": ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+    "live": "https://fern-ecommerce.vercel.app",
+    "source": "https://github.com/dev-himanshu-x/Fern-Ecommerce",
+    "image": "/images/projects/fern-ecommerce.jpg"
+  },
+  {
+    "title": "Sfridoo Recycle",
+    "blurb": "Sfridoo Recycle is a comprehensive full-stack ecosystem designed to revolutionize waste management, recycling, and B2B material exchange.",
+    "tech": ["TypeScript"],
+    "live": "https://sfridoo.vercel.app",
+    "source": "https://github.com/dev-himanshu-x/Sfridoo-Recycle",
+    "image": "/images/projects/sfridoo-recycle.jpg"
+  },
+  {
+    "title": "PeerPulse Chatapp",
+    "blurb": "A clean, WhatsApp‑style peer‑to‑peer chat UI built with React, Vite, Tailwind, and PeerJS.",
+    "tech": ["React", "Tailwind CSS", "PeerJS"],
+    "live": "https://peerpulsechat.vercel.app",
+    "source": "https://github.com/dev-himanshu-x/PeerPulse-Chatapp",
+    "image": "/images/projects/peerpulse-chatapp.jpg"
+  }
+]
