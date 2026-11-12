@@ -18,7 +18,7 @@ export function SiteFooter() {
       <p className="footer__fine">MADE WITH ❤️ BY {SITE.name.toUpperCase()}</p>
       <Image
         className="footer__lizard"
-        src="/images/footer-lizard.png"
+        src="/images/footer-lizard.webp"
         alt=""
         width={905}
         height={955}

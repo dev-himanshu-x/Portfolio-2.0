@@ -85,8 +85,25 @@ and fades in the night scene and work history, while Lenis smooths the wheel
 input so the animation follows the scroll without lag. On refresh the scroll
 position is restored once the pinned layout is ready.
 
+## Deploying to Cloudflare Pages
+
+The site is a static export (`output: "export"` in `next.config.mjs`), so
+Cloudflare serves plain files with no server needed.
+
+| Setting                | Value           |
+| ---------------------- | --------------- |
+| Framework preset       | None            |
+| Build command          | `bun run build` |
+| Build output directory | `out`           |
+| Root directory         | leave blank     |
+
+Cloudflare detects Bun and Node from the repo, so no environment variables are
+required. To preview the exact output locally, run `bun run build` and serve
+the `out/` folder with any static server.
+
 ## Assets
 
 The footer lizard is Greptile's mascot artwork. Make sure you have the right to
 use it before publishing.
+
 # Portfolio-2.0
