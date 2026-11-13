@@ -59,6 +59,14 @@ export default function RootLayout({
       >
         <SmoothScroll />
         {children}
+        {/* Cloudflare Web Analytics */}
+        <script
+          type="module"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "5cf1c3bbb61143508703cde50a40fcd0"}'
+          defer
+        />
+        {/* End Cloudflare Web Analytics */}
       </body>
     </html>
   );
