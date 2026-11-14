@@ -22,7 +22,7 @@ const WORK: Project[] = [
       "Ant Design",
     ],
     live: "https://eduvverse.com/",
-    image: "/images/projects/eduvverse.jpg",
+    image: "/images/projects/eduvverse.webp",
   },
   {
     title: "KIET Website",
@@ -30,7 +30,7 @@ const WORK: Project[] = [
       "The official website of KIET Deemed to be University, covering programmes, admissions, fees, placements and campus life.",
     tech: ["React", "Next.js", "JavaScript", "Bootstrap"],
     live: "https://www.kiet.edu/",
-    image: "/images/projects/kiet.jpg",
+    image: "/images/projects/kiet.webp",
   },
 ];
 

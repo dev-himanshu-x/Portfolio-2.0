@@ -25,6 +25,9 @@ export function IslandJourney() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+    // the mobile URL bar collapsing resizes the viewport; without this every
+    // swipe re-measures the pinned layout and stutters
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     ScrollTrigger.clearScrollMemory("manual");
 
@@ -159,6 +162,7 @@ export function IslandJourney() {
       <div className="stage-waterfall" ref={waterfallRef}>
         <BakedScene layers={waterfallScene} layerClassName="wf-layer" />
         <NightSky />
+        <div className="night-ground" aria-hidden="true" />
         <div className="night-work">
           <p className="hud-eyebrow">WORK</p>
           {EXPERIENCE.map((r) => (

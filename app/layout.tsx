@@ -5,13 +5,14 @@ import {
   DM_Sans,
   Space_Mono,
 } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { SITE } from "@/content/site";
 
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["700", "800"],
   variable: "--font-display",
 });
 
@@ -23,13 +24,13 @@ const outline = Anton({
 
 const body = DM_Sans({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: "400",
   variable: "--font-body",
 });
 
 const mono = Space_Mono({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: "400",
   variable: "--font-mono",
 });
 

@@ -1,5 +1,5 @@
 import type { ParallaxLayer } from "@/components/parallax/PaperParallax";
-import { Mound, Owl } from "./primitives/jungleShapes";
+import { Mound, Owl, OwlEyes } from "./primitives/jungleShapes";
 import { Billow, Layer } from "./primitives/shapes";
 
 // Night palette (after the reference): deep indigo sky falling to a purple
@@ -286,6 +286,7 @@ export const waterfallScene: ParallaxLayer[] = [
         </g>
       </Layer>
     ),
+    overlay: <OwlEyes x={1388} y={664} scale={0.85} fill={INK} eye={AMBER} />,
   },
 
   // 8 — foreground ink mounds framing the view

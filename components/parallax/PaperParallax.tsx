@@ -2,12 +2,15 @@
 
 import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
 import { useParallax } from "@/hooks/useParallax";
+import { rasterizeLayer, yieldToMain } from "./rasterize";
 
 export interface ParallaxLayer {
   /** 0 = far / barely moves, 1 = nearest / moves most. */
   depth: number;
   /** The paper-cut SVG (or any node) for this layer. */
   content: ReactNode;
+  /** Live (un-baked) node stacked over the layer bitmap, for animated bits. */
+  overlay?: ReactNode;
   /** Optional extra class for positioning/sizing the layer. */
   className?: string;
   /** Optional horizontal sensitivity multiplier (default 1). */
@@ -22,9 +25,6 @@ interface PaperParallaxProps {
   /** Pixels of horizontal travel applied to a depth=1 layer at full cursor. */
   pointerRange?: number;
 }
-
-const ART_W = 1600;
-const ART_H = 1000;
 
 /**
  * Reusable paper-cut parallax engine.
@@ -60,7 +60,8 @@ export function PaperParallax({
     const urls: string[] = [];
     (async () => {
       for (let i = 0; i < layers.length; i++) {
-        const url = await rasterizeLayer(svgs[i], layers[i].depth);
+        const url = await rasterizeLayer(svgs[i], layers[i].depth, "28,22,18");
+        await yieldToMain();
         if (cancelled) {
           URL.revokeObjectURL(url);
           return;
@@ -117,52 +118,4 @@ export function PaperParallax({
       })}
     </div>
   );
-}
-
-/**
- * Rasterize one authored SVG to a PNG (object URL), baking in the two-tier
- * directional drop-shadow (warm paper tone, light from the upper-left). Done
- * once per layer; the result is a flat bitmap that costs nothing to transform.
- */
-async function rasterizeLayer(
-  svg: SVGSVGElement,
-  depth: number,
-): Promise<string> {
-  const clone = svg.cloneNode(true) as SVGSVGElement;
-  clone.setAttribute("width", String(ART_W));
-  clone.setAttribute("height", String(ART_H));
-  clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-
-  const xml = new XMLSerializer().serializeToString(clone);
-  const svgUrl = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
-  const img = new Image();
-  img.decoding = "async";
-  img.src = svgUrl;
-  await img.decode();
-
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const canvas = document.createElement("canvas");
-  canvas.width = ART_W * dpr;
-  canvas.height = ART_H * dpr;
-  const ctx = canvas.getContext("2d")!;
-  ctx.scale(dpr, dpr);
-
-  // soft ambient shadow
-  ctx.shadowColor = "rgba(28,22,18,0.24)";
-  ctx.shadowBlur = 18 + depth * 30;
-  ctx.shadowOffsetX = 4 + depth * 10;
-  ctx.shadowOffsetY = 6 + depth * 14;
-  ctx.drawImage(img, 0, 0, ART_W, ART_H);
-
-  // crisp contact shadow on top
-  ctx.shadowColor = "rgba(28,22,18,0.42)";
-  ctx.shadowBlur = 3 + depth * 5;
-  ctx.shadowOffsetX = 1.5 + depth * 4;
-  ctx.shadowOffsetY = 2 + depth * 5;
-  ctx.drawImage(img, 0, 0, ART_W, ART_H);
-
-  const blob = await new Promise<Blob | null>((res) =>
-    canvas.toBlob(res, "image/png"),
-  );
-  return blob ? URL.createObjectURL(blob) : svgUrl;
 }

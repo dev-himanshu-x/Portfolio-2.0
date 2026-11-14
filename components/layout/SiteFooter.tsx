@@ -16,14 +16,22 @@ export function SiteFooter() {
         ))}
       </div>
       <p className="footer__fine">MADE WITH ❤️ BY {SITE.name.toUpperCase()}</p>
-      <Image
-        className="footer__lizard"
-        src="/images/footer-lizard.webp"
-        alt=""
-        width={905}
-        height={955}
-        aria-hidden="true"
-      />
+      <div className="footer__lizard" aria-hidden="true">
+        <Image
+          className="footer__lizard-body"
+          src="/images/footer-lizard-body.webp"
+          alt=""
+          width={720}
+          height={760}
+        />
+        <Image
+          className="footer__lizard-tongue"
+          src="/images/footer-lizard-tongue.webp"
+          alt=""
+          width={720}
+          height={760}
+        />
+      </div>
       <FooterGrass />
     </footer>
   );

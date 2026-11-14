@@ -10,18 +10,6 @@ const FEATURED = [
   "Sfridoo-Recycle",
   "PeerPulse-Chatapp",
 ];
-const BLURBS: Record<string, string> = {
-  "MedSync-Hms":
-    "A full-featured, web-based Hospital Management System built with AngularJS and Bootstrap.",
-  "Cloudflare-Csv-Template": "",
-  "Sicuaura-Ecommerce":
-    "A Next.js e-commerce storefront with URL-driven search, filters, and sorting, plus wishlist, cart, skeleton loading states, and error boundaries.",
-};
-
-const TECH_OVERRIDE: Record<string, string[]> = {
-  "MedSync-Hms": ["AngularJS", "Bootstrap"],
-};
-
 const RAW = `https://raw.githubusercontent.com/${USER}`;
 
 interface Repo {
@@ -149,12 +137,12 @@ const projects = await Promise.all(
     const slug = r.name.toLowerCase();
     return {
       title: r.name.replace(/[-_]+/g, " "),
-      blurb: BLURBS[r.name] ?? (r.description || blurbFrom(readme)),
-      tech: TECH_OVERRIDE[r.name] ?? techFrom(pkg, r.language),
+      blurb: r.description || blurbFrom(readme),
+      tech: techFrom(pkg, r.language),
       live: r.homepage || undefined,
       source: `https://github.com/${USER}/${r.name}`,
-      image: existsSync(`public/images/projects/${slug}.jpg`)
-        ? `/images/projects/${slug}.jpg`
+      image: existsSync(`public/images/projects/${slug}.webp`)
+        ? `/images/projects/${slug}.webp`
         : undefined,
     };
   }),

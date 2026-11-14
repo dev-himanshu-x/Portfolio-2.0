@@ -18,6 +18,6 @@ export const LINKS = [
   { label: "EMAIL", href: "mailto:iam.himanshu.x@gmail.com" },
   {
     label: "RESUME",
-    href: "https://www.himanshujaiswal.dev/Himanshu_Jaiswal_Resume.pdf",
+    href: "/Himanshu_Jaiswal_Resume.pdf",
   },
 ];

@@ -48,8 +48,7 @@ const FLOWERS = [
   { x: 470, h: 150, s: 1.1 },
   { x: 700, h: 80, s: 0.8 },
   { x: 930, h: 135, s: 1.05 },
-  { x: 1130, h: 95, s: 0.85 },
-  { x: 1390, h: 125, s: 1 },
+  { x: 1130, h: 135, s: 0.95 },
   { x: 1540, h: 70, s: 0.75 },
 ];
 
@@ -98,7 +97,7 @@ export function FooterGrass() {
         <Sunflower key={f.x} {...f} />
       ))}
       <path d={FRONT} fill="#1f5a2b" />
-      <rect y={H - 14} width={W} height="14" fill="#14401f" />
+      <rect y={H - 16} width={W} height="16" fill="#1f5a2b" />
     </svg>
   );
 }

@@ -11,7 +11,7 @@
     ],
     "live": "https://cybervidyakiet.vercel.app",
     "source": "https://github.com/dev-himanshu-x/Attendance-Cybervidya",
-    "image": "/images/projects/attendance-cybervidya.jpg"
+    "image": "/images/projects/attendance-cybervidya.webp"
   },
   {
     "title": "Templify Email Template",
@@ -25,7 +25,7 @@
     ],
     "live": "https://email-templify.vercel.app/",
     "source": "https://github.com/dev-himanshu-x/Templify-Email-Template",
-    "image": "/images/projects/templify-email-template.jpg"
+    "image": "/images/projects/templify-email-template.webp"
   },
   {
     "title": "Tv Time",
@@ -39,7 +39,7 @@
     ],
     "live": "https://tv-timee.vercel.app",
     "source": "https://github.com/dev-himanshu-x/Tv-Time",
-    "image": "/images/projects/tv-time.jpg"
+    "image": "/images/projects/tv-time.webp"
   },
   {
     "title": "Fern Ecommerce",
@@ -47,7 +47,7 @@
     "tech": ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     "live": "https://fern-ecommerce.vercel.app",
     "source": "https://github.com/dev-himanshu-x/Fern-Ecommerce",
-    "image": "/images/projects/fern-ecommerce.jpg"
+    "image": "/images/projects/fern-ecommerce.webp"
   },
   {
     "title": "Sfridoo Recycle",
@@ -55,7 +55,7 @@
     "tech": ["TypeScript"],
     "live": "https://sfridoo.vercel.app",
     "source": "https://github.com/dev-himanshu-x/Sfridoo-Recycle",
-    "image": "/images/projects/sfridoo-recycle.jpg"
+    "image": "/images/projects/sfridoo-recycle.webp"
   },
   {
     "title": "PeerPulse Chatapp",
@@ -63,6 +63,6 @@
     "tech": ["React", "Tailwind CSS", "PeerJS"],
     "live": "https://peerpulsechat.vercel.app",
     "source": "https://github.com/dev-himanshu-x/PeerPulse-Chatapp",
-    "image": "/images/projects/peerpulse-chatapp.jpg"
+    "image": "/images/projects/peerpulse-chatapp.webp"
   }
 ]

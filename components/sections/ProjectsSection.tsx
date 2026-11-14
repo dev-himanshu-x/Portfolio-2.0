@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/content/projects";
 import { BigLeaf, FanLeaf } from "@/scenes/primitives/jungleShapes";
 import { Palm } from "@/scenes/primitives/shapes";
+import { LeafBreeze } from "./LeafBreeze";
 
 /**
  * Selected work over dark jungle ink. Cards are thin-lined, transparent HUD
@@ -100,6 +101,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
     <section className="work" id="work" ref={ref}>
       <Flora />
       <Flora end />
+      <LeafBreeze />
 
       <div className="work__inner">
         <div className="work-head">

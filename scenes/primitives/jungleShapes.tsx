@@ -496,14 +496,54 @@ export function Owl({
         strokeWidth="0"
         fill="none"
       />
-      {/* eyes */}
-      <circle cx="-9" cy="-18" r="5" fill={eye} />
-      <circle cx="9" cy="-18" r="5" fill={eye} />
-      <circle cx="-9" cy="-18" r="2" fill={fill} />
-      <circle cx="9" cy="-18" r="2" fill={fill} />
       {/* beak */}
       <path d="M-3 -12 L 3 -12 L 0 -5 Z" fill={eye} opacity="0.85" />
     </g>
+  );
+}
+
+/** Live eyes for <Owl>, drawn outside the baked bitmap so they can blink. */
+export function OwlEyes({
+  x,
+  y,
+  scale = 1,
+  fill,
+  eye = "#FBB13C",
+}: {
+  x: number;
+  y: number;
+  scale?: number;
+  fill: string;
+  eye?: string;
+}) {
+  return (
+    <svg
+      className="pp-overlay"
+      viewBox="0 0 1600 1000"
+      preserveAspectRatio="xMidYMid slice"
+      width="100%"
+      height="100%"
+    >
+      <g
+        className="owl-eyes"
+        transform={`translate(${x} ${y}) scale(${scale})`}
+      >
+        <rect
+          className="owl-eyes__hit"
+          x="-28"
+          y="-42"
+          width="56"
+          height="40"
+          fill="transparent"
+        />
+        {[-9, 9].map((cx) => (
+          <g className="owl-eye" key={cx}>
+            <circle cx={cx} cy="-18" r="5" fill={eye} />
+            <circle cx={cx} cy="-18" r="2" fill={fill} />
+          </g>
+        ))}
+      </g>
+    </svg>
   );
 }
 
