@@ -38,7 +38,7 @@ export function BakedScene({
     const urls: string[] = [];
     (async () => {
       for (let i = 0; i < layers.length; i++) {
-        const url = await rasterizeLayer(svgs[i], layers[i].depth, "20,32,22");
+        const url = await rasterizeLayer(svgs[i], layers[i].depth, null);
         if (cancelled) {
           URL.revokeObjectURL(url);
           return;

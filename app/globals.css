@@ -93,7 +93,7 @@ body {
 .owl-eye {
   transform-box: fill-box;
   transform-origin: center;
-  animation: owl-blink 3s ease-in-out infinite;
+  animation: owl-blink 2s ease-in-out infinite;
 }
 
 .owl-eyes:hover .owl-eye {
@@ -102,11 +102,11 @@ body {
 
 @keyframes owl-blink {
   0%,
-  92%,
+  88%,
   100% {
     transform: scaleY(1);
   }
-  96% {
+  94% {
     transform: scaleY(0.08);
   }
 }
@@ -419,42 +419,43 @@ body {
 }
 
 /* corner brackets framing the viewport */
+/* each bracket is its own fixed layer so difference-blending reaches the page
+   behind it (a shared fixed parent would isolate it) at only 18px per corner */
 .hud-frame {
-  position: fixed;
-  z-index: 55;
-  inset: 12px;
-  pointer-events: none;
+  display: contents;
 }
 
 .hud-frame i {
-  mix-blend-mode: difference;
-  position: absolute;
+  position: fixed;
+  z-index: 55;
   width: 18px;
   height: 18px;
+  pointer-events: none;
+  mix-blend-mode: difference;
   border: 1.5px solid rgba(255, 255, 255, 0.85);
 }
 
 .hud-frame i:nth-child(1) {
-  top: 0;
-  left: 0;
+  top: 12px;
+  left: 12px;
   border-right: 0;
   border-bottom: 0;
 }
 .hud-frame i:nth-child(2) {
-  top: 0;
-  right: 0;
+  top: 12px;
+  right: 12px;
   border-left: 0;
   border-bottom: 0;
 }
 .hud-frame i:nth-child(3) {
-  bottom: 0;
-  left: 0;
+  bottom: 12px;
+  left: 12px;
   border-right: 0;
   border-top: 0;
 }
 .hud-frame i:nth-child(4) {
-  bottom: 0;
-  right: 0;
+  bottom: 12px;
+  right: 12px;
   border-left: 0;
   border-top: 0;
 }

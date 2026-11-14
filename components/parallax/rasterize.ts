@@ -14,14 +14,15 @@ function textureScale() {
 export const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0));
 
 /**
- * Rasterize one authored SVG to a PNG object URL with a two-tier directional
- * drop-shadow baked in, so the moving layer is a plain bitmap with no filter.
- * `shadowRgb` is the shadow tint as "r,g,b".
+ * Rasterize one authored SVG to a PNG object URL so the moving layer is a plain
+ * bitmap with no filter. `shadowRgb` ("r,g,b") bakes in a two-tier directional
+ * drop-shadow; null keeps the pixels identical to the live SVG, which scenes
+ * with soft glows need so the swap from SVG to bitmap never shifts colour.
  */
 export async function rasterizeLayer(
   svg: SVGSVGElement,
   depth: number,
-  shadowRgb: string,
+  shadowRgb: string | null,
 ): Promise<string> {
   const clone = svg.cloneNode(true) as SVGSVGElement;
   clone.setAttribute("width", String(ART_W));
@@ -43,19 +44,21 @@ export async function rasterizeLayer(
   if (!ctx) return svgUrl;
   ctx.scale(scale, scale);
 
-  // canvas shadow metrics ignore the transform; 2x is the reference look
-  const k = scale / 2;
+  if (shadowRgb) {
+    // canvas shadow metrics ignore the transform; 2x is the reference look
+    const k = scale / 2;
 
-  ctx.shadowColor = `rgba(${shadowRgb},0.24)`;
-  ctx.shadowBlur = (18 + depth * 30) * k;
-  ctx.shadowOffsetX = (4 + depth * 10) * k;
-  ctx.shadowOffsetY = (6 + depth * 14) * k;
-  ctx.drawImage(img, 0, 0, ART_W, ART_H);
+    ctx.shadowColor = `rgba(${shadowRgb},0.24)`;
+    ctx.shadowBlur = (18 + depth * 30) * k;
+    ctx.shadowOffsetX = (4 + depth * 10) * k;
+    ctx.shadowOffsetY = (6 + depth * 14) * k;
+    ctx.drawImage(img, 0, 0, ART_W, ART_H);
 
-  ctx.shadowColor = `rgba(${shadowRgb},0.4)`;
-  ctx.shadowBlur = (3 + depth * 5) * k;
-  ctx.shadowOffsetX = (1.5 + depth * 4) * k;
-  ctx.shadowOffsetY = (2 + depth * 5) * k;
+    ctx.shadowColor = `rgba(${shadowRgb},0.4)`;
+    ctx.shadowBlur = (3 + depth * 5) * k;
+    ctx.shadowOffsetX = (1.5 + depth * 4) * k;
+    ctx.shadowOffsetY = (2 + depth * 5) * k;
+  }
   ctx.drawImage(img, 0, 0, ART_W, ART_H);
 
   const blob = await new Promise<Blob | null>((res) =>
