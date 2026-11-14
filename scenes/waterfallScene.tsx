@@ -39,9 +39,9 @@ const FAR_CREST = `M0 668
   C 470 534 508 600 560 632
   C 622 610 668 566 724 552
   C 776 572 830 622 900 648
-  C 986 640 1040 540 1074 438
-  L 1148 438
-  C 1182 540 1238 632 1310 652
+  C 986 640 1044 540 1082 438
+  L 1140 438
+  C 1176 540 1238 632 1310 652
   C 1364 632 1406 580 1452 556
   C 1500 578 1552 620 1600 640`;
 
@@ -122,7 +122,7 @@ export const waterfallScene: ParallaxLayer[] = [
         </defs>
         {/* crater halo + smoke sit behind the range so the glow rims the rock */}
         <ellipse cx="1111" cy="474" rx="210" ry="140" fill="url(#n-ember)" />
-        <Billow x={1046} y={370} scale={0.3} fill={SMOKE_NIGHT} />
+        <Billow x={1083} y={388} scale={0.3} fill={SMOKE_NIGHT} />
         {/* one continuous, naturally rolling range — irregular curved peaks,
             with the volcano's concave cone rising to a crater notch mid-path.
             A blurred crest stroke rims the skyline so the range separates
@@ -150,8 +150,8 @@ export const waterfallScene: ParallaxLayer[] = [
           strokeLinecap="round"
           opacity="0.9"
         />
-        <ellipse cx="1111" cy="438" rx="30" ry="9" fill={EMBER} />
-        <ellipse cx="1111" cy="436" rx="16" ry="5" fill={AMBER} />
+        <ellipse cx="1111" cy="439" rx="32" ry="10" fill={EMBER} />
+        <ellipse cx="1111" cy="437" rx="18" ry="5.5" fill={AMBER} />
       </Layer>
     ),
   },

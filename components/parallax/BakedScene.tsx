@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ParallaxLayer } from "./PaperParallax";
-import { rasterizeLayer, whenIdle, yieldToMain } from "./rasterize";
+import { rasterizeLayer, yieldToMain } from "./rasterize";
 
 interface BakedSceneProps {
   layers: ParallaxLayer[];
@@ -36,8 +36,7 @@ export function BakedScene({
 
     let cancelled = false;
     const urls: string[] = [];
-    // below the fold until scrolled to, so it waits for the hero to settle
-    const cancelIdle = whenIdle(async () => {
+    (async () => {
       for (let i = 0; i < layers.length; i++) {
         const url = await rasterizeLayer(svgs[i], layers[i].depth, "20,32,22");
         if (cancelled) {
@@ -48,11 +47,10 @@ export function BakedScene({
         await yieldToMain();
       }
       if (!cancelled) setTextures(urls);
-    }, 2500);
+    })();
 
     return () => {
       cancelled = true;
-      cancelIdle();
       for (const u of urls) URL.revokeObjectURL(u);
     };
   }, [layers]);

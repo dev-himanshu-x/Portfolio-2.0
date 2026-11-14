@@ -13,17 +13,8 @@ function textureScale() {
 
 export const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0));
 
-export function whenIdle(run: () => void, timeout = 1500) {
-  if (typeof window.requestIdleCallback === "function") {
-    const id = window.requestIdleCallback(run, { timeout });
-    return () => window.cancelIdleCallback(id);
-  }
-  const id = window.setTimeout(run, 200);
-  return () => window.clearTimeout(id);
-}
-
 /**
- * Rasterize one authored SVG to a WebP object URL with a two-tier directional
+ * Rasterize one authored SVG to a PNG object URL with a two-tier directional
  * drop-shadow baked in, so the moving layer is a plain bitmap with no filter.
  * `shadowRgb` is the shadow tint as "r,g,b".
  */
@@ -68,7 +59,7 @@ export async function rasterizeLayer(
   ctx.drawImage(img, 0, 0, ART_W, ART_H);
 
   const blob = await new Promise<Blob | null>((res) =>
-    canvas.toBlob(res, "image/webp", 0.92),
+    canvas.toBlob(res, "image/png"),
   );
   return blob ? URL.createObjectURL(blob) : svgUrl;
 }
