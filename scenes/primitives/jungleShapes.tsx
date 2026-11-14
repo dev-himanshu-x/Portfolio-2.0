@@ -509,18 +509,22 @@ export function OwlEyes({
   scale = 1,
   fill,
   eye = "#FBB13C",
+  viewBox = "0 0 1600 1000",
+  fit = "xMidYMid slice",
 }: {
   x: number;
   y: number;
   scale?: number;
   fill: string;
   eye?: string;
+  viewBox?: string;
+  fit?: string;
 }) {
   return (
     <svg
       className="pp-overlay"
-      viewBox="0 0 1600 1000"
-      preserveAspectRatio="xMidYMid slice"
+      viewBox={viewBox}
+      preserveAspectRatio={fit}
       width="100%"
       height="100%"
     >

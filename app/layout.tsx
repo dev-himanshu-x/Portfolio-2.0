@@ -7,6 +7,7 @@ import {
 } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
+import { Loader } from "@/components/layout/Loader";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { SITE } from "@/content/site";
 
@@ -51,13 +52,14 @@ export default function RootLayout({
           // biome-ignore lint/security/noDangerouslySetInnerHtml: static inline script must run before first paint
           dangerouslySetInnerHTML={{
             __html:
-              'history.scrollRestoration="manual";try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type!=="navigate"&&+sessionStorage.getItem("scrollY")>0)document.documentElement.classList.add("booting")}catch(e){}',
+              'history.scrollRestoration="manual";var h=document.documentElement;h.classList.add("loading");setTimeout(function(){h.classList.remove("loading")},12000);try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type!=="navigate"&&+sessionStorage.getItem("scrollY")>0)h.classList.add("booting");else if(!matchMedia("(prefers-reduced-motion: reduce)").matches){h.classList.add("intro");setTimeout(function(){h.classList.remove("intro")},4000)}}catch(e){}',
           }}
         />
       </head>
       <body
         className={`${display.variable} ${outline.variable} ${body.variable} ${mono.variable}`}
       >
+        <Loader />
         <SmoothScroll />
         {children}
         {/* Cloudflare Web Analytics */}

@@ -33,7 +33,12 @@ export function SiteNav() {
         <nav className="hud-nav__links">
           <button
             type="button"
-            onClick={() => scrollToY(window.innerHeight * 2.4)}
+            onClick={() => {
+              const track = document.getElementById("top");
+              if (!track) return;
+              const run = track.offsetHeight - window.innerHeight;
+              scrollToY(track.offsetTop + run * 0.95);
+            }}
           >
             WORK
           </button>

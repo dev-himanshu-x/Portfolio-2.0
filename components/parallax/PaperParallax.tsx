@@ -1,7 +1,14 @@
 "use client";
 
-import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
+import {
+  type CSSProperties,
+  type ReactNode,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 import { useParallax } from "@/hooks/useParallax";
+import { markBaked } from "./bakeStatus";
 import { rasterizeLayer, yieldToMain } from "./rasterize";
 
 export interface ParallaxLayer {
@@ -44,6 +51,7 @@ export function PaperParallax({
   scrollRange = 120,
   pointerRange = 36,
 }: PaperParallaxProps) {
+  const id = useId();
   const ref = useParallax<HTMLDivElement>();
   const [textures, setTextures] = useState<string[] | null>(null);
 
@@ -68,14 +76,17 @@ export function PaperParallax({
         }
         urls.push(url);
       }
-      if (!cancelled) setTextures(urls);
+      if (!cancelled) {
+        setTextures(urls);
+        markBaked(id);
+      }
     })();
 
     return () => {
       cancelled = true;
       for (const u of urls) URL.revokeObjectURL(u);
     };
-  }, [layers]);
+  }, [layers, id]);
 
   const baked = textures != null;
 
@@ -106,6 +117,7 @@ export function PaperParallax({
             key={i}
             className={`pp-layer ${layer.className ?? ""}`}
             style={style}
+            data-depth={d}
             aria-hidden="true"
           >
             {baked ? (

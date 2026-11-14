@@ -6,7 +6,7 @@ export interface Role {
 
 export const EXPERIENCE: Role[] = [
   {
-    company: "ERP Eduverse",
+    company: "ERP EduVverse",
     role: "Frontend Developer",
     period: "June 2026 – Present",
   },

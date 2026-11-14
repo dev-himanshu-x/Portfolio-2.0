@@ -12,6 +12,116 @@
   box-sizing: border-box;
 }
 
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse at 50% 38%,
+    #fbefe2 0%,
+    #f3ece1 55%,
+    #e7e0d4 100%
+  );
+  color: var(--ink);
+  transition: opacity 0.6s ease;
+  animation: loader-failsafe 0s linear 12s forwards;
+}
+
+.loader--done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes loader-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.loader__sky {
+  position: absolute;
+  inset: -5%;
+  pointer-events: none;
+  will-change: transform;
+  animation: loader-drift 14s ease-in-out infinite alternate;
+}
+
+.loader__sky--far {
+  opacity: 0.75;
+  animation-duration: 20s;
+}
+
+.loader__sky--near {
+  animation-duration: 10s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes loader-drift {
+  from {
+    transform: translateX(-3%);
+  }
+  to {
+    transform: translateX(3%);
+  }
+}
+
+.loader__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+  padding: 0 1.4rem;
+}
+
+.loader__owl {
+  position: relative;
+  width: min(18rem, 64vw);
+}
+
+.loader__owl svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.loader__hud {
+  width: min(22rem, 76vw);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+}
+
+.loader__meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 0.6rem;
+}
+
+.loader__meta span:last-child {
+  color: var(--ember);
+  font-variant-numeric: tabular-nums;
+}
+
+.loader__bar {
+  height: 6px;
+  background: rgba(26, 26, 26, 0.14);
+}
+
+.loader__bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--ember), var(--lava), #fbb13c);
+  transform-origin: left;
+  transform: scaleX(var(--p, 0));
+}
+
 .booting main {
   visibility: hidden;
 }
@@ -139,8 +249,24 @@ body {
 
 /* ---- Island journey: pinned volcano → grove blend ---- */
 
+/* the track sets how much scrolling the transition takes; the stage sticks
+   to the viewport while it plays (no JS pin: nothing is re-parented or
+   toggled to position:fixed, which is what made touch scrolling jerky) */
+.journey-track {
+  --journey-run: 210;
+  height: 100vh;
+  height: calc(100svh + var(--journey-run) * 1svh);
+}
+
+@media (pointer: coarse) {
+  .journey-track {
+    --journey-run: 160;
+  }
+}
+
 .journey-stage {
-  position: relative;
+  position: sticky;
+  top: 0;
   height: 100vh;
   height: 100dvh;
   width: 100%;
@@ -164,15 +290,55 @@ body {
 
 .stage-volcano {
   z-index: 2;
+  background: #f3ece1; /* sky tone: a not-yet-repainted tile shows cream, not the night base */
+  transform-origin: 50% 43%; /* the crater */
 }
 
-.dusk-veil {
+.lava-curtain {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  z-index: 4;
+  width: 100%;
+  height: 260%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.lava-embers {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.ember {
+  position: absolute;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(circle, #ffd66b 0%, #f26419 70%);
+  box-shadow: 0 0 8px 2px rgba(242, 100, 25, 0.7);
+}
+
+.crater-glow {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 43%;
+  width: 46vmin;
+  height: 46vmin;
+  margin: -23vmin 0 0 -23vmin;
+  border-radius: 50%;
   opacity: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, #2b1a55 0%, #171034 70%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 214, 107, 0.95) 0%,
+    rgba(242, 100, 25, 0.7) 35%,
+    rgba(193, 48, 10, 0) 70%
+  );
 }
 
 .journey-stage .pp-scene {
@@ -474,24 +640,12 @@ body {
 
 .hero-id > * {
   margin: 0;
-  animation: hero-rise 1s cubic-bezier(0.19, 1, 0.22, 1) backwards;
 }
 
-.hero-id > *:nth-child(1) {
-  animation-delay: 0.25s;
-}
-.hero-id > *:nth-child(2) {
-  animation-delay: 0.38s;
-}
-.hero-id > *:nth-child(3) {
-  animation-delay: 0.5s;
-}
-
-@keyframes hero-rise {
-  from {
-    opacity: 0;
-    transform: translateY(90%);
-  }
+/* held back from first paint until IslandJourney takes over the rise-in;
+   a timer in the layout script lifts it if hydration never arrives */
+.intro .hero-id > * {
+  opacity: 0;
 }
 
 .hero-id__eyebrow,
@@ -1212,6 +1366,7 @@ body {
   border: 2px solid rgba(247, 245, 240, 0.65);
   border-radius: 50%;
   background: #1b1340;
+  transform: scale(var(--dot, 1));
 }
 
 .night-work__role:not(:last-child)::after {
@@ -1222,6 +1377,8 @@ body {
   width: 1px;
   height: calc(100% - 16px);
   background: rgba(247, 245, 240, 0.3);
+  transform-origin: top;
+  transform: scaleY(var(--line, 1));
 }
 
 .night-work__role {
@@ -1252,6 +1409,16 @@ body {
   background-size: 100% 300%;
   box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7);
   animation: connector-shine 1.2s linear infinite;
+}
+
+@media (hover: hover) {
+  .night-work__role > * {
+    transition: opacity 0.3s ease;
+  }
+
+  .night-work:has(.night-work__role:hover) .night-work__role:not(:hover) > * {
+    opacity: 0.4;
+  }
 }
 
 @keyframes connector-shine {
@@ -1291,9 +1458,6 @@ body {
     animation: none;
   }
   .marquee__inner {
-    animation: none;
-  }
-  .hero-id > * {
     animation: none;
   }
   .footer__lizard-tongue {

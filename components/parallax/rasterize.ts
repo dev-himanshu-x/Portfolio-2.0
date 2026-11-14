@@ -1,17 +1,36 @@
 const ART_W = 1600;
 const ART_H = 1000;
 
-/** Texture density: phones and weak laptops get 1x (a quarter of the memory of 2x). */
+/** Texture density: phones and weak laptops get 1x; the rest are capped at 1.5x
+ *  because ~18 full-screen 2x bitmaps exceed GPU memory and get evicted. */
 function textureScale() {
   const nav = navigator as Navigator & { deviceMemory?: number };
   const weak =
     window.matchMedia("(pointer: coarse)").matches ||
     (nav.deviceMemory ?? 8) <= 4 ||
     (navigator.hardwareConcurrency ?? 8) <= 4;
-  return weak ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+  return weak ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
 }
 
-export const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0));
+let lastScroll = 0;
+if (typeof window !== "undefined") {
+  window.addEventListener(
+    "scroll",
+    () => {
+      lastScroll = performance.now();
+    },
+    { passive: true },
+  );
+}
+
+/** Baking is main-thread work: wait out active scrolling so the scrubbed
+ *  timeline never competes with it. */
+export async function yieldToMain() {
+  await new Promise<void>((r) => setTimeout(r, 0));
+  while (performance.now() - lastScroll < 250) {
+    await new Promise<void>((r) => setTimeout(r, 120));
+  }
+}
 
 /**
  * Rasterize one authored SVG to a PNG object URL so the moving layer is a plain
@@ -64,5 +83,11 @@ export async function rasterizeLayer(
   const blob = await new Promise<Blob | null>((res) =>
     canvas.toBlob(res, "image/png"),
   );
-  return blob ? URL.createObjectURL(blob) : svgUrl;
+  if (!blob) return svgUrl;
+  const url = URL.createObjectURL(blob);
+  // decode off the main thread now, not on the first frame the layer shows
+  const warm = new Image();
+  warm.src = url;
+  await warm.decode().catch(() => {});
+  return url;
 }

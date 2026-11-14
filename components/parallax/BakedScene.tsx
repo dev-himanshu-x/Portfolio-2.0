@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { markBaked } from "./bakeStatus";
 import type { ParallaxLayer } from "./PaperParallax";
 import { rasterizeLayer, yieldToMain } from "./rasterize";
 
@@ -23,6 +24,7 @@ export function BakedScene({
   className,
   layerClassName,
 }: BakedSceneProps) {
+  const id = useId();
   const ref = useRef<HTMLDivElement>(null);
   const [textures, setTextures] = useState<string[] | null>(null);
 
@@ -46,14 +48,17 @@ export function BakedScene({
         urls.push(url);
         await yieldToMain();
       }
-      if (!cancelled) setTextures(urls);
+      if (!cancelled) {
+        setTextures(urls);
+        markBaked(id);
+      }
     })();
 
     return () => {
       cancelled = true;
       for (const u of urls) URL.revokeObjectURL(u);
     };
-  }, [layers]);
+  }, [layers, id]);
 
   const baked = textures != null;
 
